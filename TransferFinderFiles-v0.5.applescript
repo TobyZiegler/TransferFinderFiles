@@ -4,13 +4,16 @@
 # AppleScript to move files from one folder to another
 #
 # Created by Toby Ziegler, February 22 2023
-# Last updated by Toby on March 18, 2023
+# Last updated by Toby on March 19, 2023
 #
-# This works, even though it throws an error 0 and a -10004 still
-# Now it does not work and throws error number -1708 at the createPrefs handler
 #
-# Designating this script as version 0.4, check for preferences, create if missing
 #
+# Designating this script as version 0.5
+#
+--current version message:
+-- This works, even though it throws an error 0 and a -10004 at the very end still
+-- Preferences (plist) now created with dummy data
+
 
 # initialize variables -- no global variables yet, delete if never
 ## need error handling for canceling selections
@@ -28,6 +31,11 @@ set targetFolder to setFolder("target")
 moveFiles(sourceFolder, targetFolder)
 
 --savePrefs()????
+## want prefs for:
+## number of files to transfer
+## use random or sequential files
+## default source folder
+## default target folder
 
 
 ########### END MAIN ###########
@@ -63,7 +71,6 @@ end moveFiles
 on setFolder(theKind)
 	
 	try
-		#		set theFolder to choose folder with prompt "Please choose the " & theKind & " folder:" default location ((path to home folder) as alias)
 		set theFolder to choose folder with prompt "Please choose the " & theKind & " folder:"
 		log theFolder
 		return theFolder
@@ -75,6 +82,7 @@ on readPrefs()
 	--read the plist
 	
 	set thePListPath to "~/Library/Preferences/com.TobyZiegler.TransferFinderFiles.plist"
+	## using fixed path to the user library, not planning to give option otherwise
 	
 	checkExists(thePListPath)
 	
@@ -84,7 +92,7 @@ on readPrefs()
 		end tell
 	end tell
 	--> Result: "string value"
-	
+	## stringkey is the generic provided by MacAutomation found code need to determine what prefs should be saved and read to replace generic
 	
 end readPrefs
 
@@ -100,7 +108,8 @@ on checkExists(theFile)
 			return true
 		end if
 	end tell
-	--next handler cannot be in the System Events tell
+	
+	--createPrefs handler cannot be in the System Events tell
 	createPrefs(theFile)
 	
 end checkExists
