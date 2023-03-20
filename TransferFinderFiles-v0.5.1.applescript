@@ -8,11 +8,11 @@
 #
 #
 #
-# Designating this script as version 0.5
+# Designating this script as version 0.5.1
 #
 --current version message:
 -- This works, even though it throws an error 0 and a -10004 at the very end still
--- Preferences (plist) now created with dummy data
+-- Preferences (plist) now created with dummy data, further notes on what is needed
 
 
 # initialize variables -- no global variables yet, delete if never
@@ -27,15 +27,18 @@ readPrefs() --sourceFolder,targetFolder,numberFiles,notifyToggle
 --prefDecision() --use prefs or set new prefs
 
 set sourceFolder to setFolder("source")
+
 set targetFolder to setFolder("target")
+
 moveFiles(sourceFolder, targetFolder)
 
 --savePrefs()????
 ## want prefs for:
-## number of files to transfer
-## use random or sequential files
-## default source folder
-## default target folder
+##   number of files to transfer
+##   use random or sequential files
+##   default source folder
+##   default target folder
+##   date of last prefs?
 
 
 ########### END MAIN ###########
@@ -83,6 +86,7 @@ on readPrefs()
 	
 	set thePListPath to "~/Library/Preferences/com.TobyZiegler.TransferFinderFiles.plist"
 	## using fixed path to the user library, not planning to give option otherwise
+	## set as global in the beginning instead? usable in each handler that way...
 	
 	checkExists(thePListPath)
 	
